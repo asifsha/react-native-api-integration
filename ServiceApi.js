@@ -1,9 +1,9 @@
 
-class ServiceApi {
+export default class ServiceApi {
 
   static getData(artistName) {
     return new Promise((resolve, reject) => {
-
+      console.warn(this.artistName);
       const baseUrl = 'https://rest.bandsintown.com/artists/';
       const appid = 'artistapp_asif';
       const artistUrl = baseUrl + artistName + '?app_id=' + appid;
@@ -11,7 +11,8 @@ class ServiceApi {
 
       fetch(artistUrl, {
         method: 'GET'
-      }).then(response => response.json(resolve(response)))
+      }).then(response => response.json())
+        .then(data => resolve( data ))
         .catch(function (error) {
           console.error('Error:', error);
           reject(error);

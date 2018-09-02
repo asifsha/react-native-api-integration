@@ -1,28 +1,47 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import {
+  StatusBar, Button, TextInput, Image,
+  FlatList, StyleSheet, Text, View
+} from 'react-native';
 import ServiceApi from './ServiceApi';
 
 export default class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { text: '' };
+    this.state = { name: 'Enter name to search artist', artistdata: '', artistevents: [] };
+    this.searchartist = this.searchartist.bind(this);
+  }
+
+
+  searchartist() {
+    ServiceApi.getData(this.state.name).
+      then((data) => this.setState({ artistdata: data }));
   }
 
   render() {
     return (
       <View style={styles.container}>
         <TextInput
-          style={{ height: 40 }}
+          style={{ height: 40, width: 250, borderColor: 'gray', borderWidth: 1 }}
           placeholder="Type here to search artist!"
-          onChangeText={(text) => this.setState({ text })}
+          onChangeText={(text) => this.setState({ name: text })}
         />
         <Button
-          onPress={onPressLearnMore}
+          onPress={this.searchartist}
           title="Search"
           color="#841584"
-          accessibilityLabel="Learn more about this purple button"
+          accessibilityLabel="Search Artist"
         />
+        <Text>Results</Text>
+        <Text style={styles.textview}>{this.state.artistdata.name}</Text>
+        <Image source={{ uri: this.state.artistdata.thumb_url }}
+          style={{ width: 350, height: 350 }} />
+        <FlatList
+          data={this.state.artistevents}
+          renderItem={({ item }) => <Text>{item.name}</Text>}
+        />
+
       </View>
     );
   }
@@ -36,5 +55,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: StatusBar.currentHeight
   },
+  textview: {
+    fontWeight: 'bold'
+  }
 });
