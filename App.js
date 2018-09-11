@@ -1,17 +1,31 @@
 import React from 'react';
 import {
   StatusBar, Button, TextInput, Image,
-  FlatList, StyleSheet, Text, View
+  FlatList, StyleSheet, Text, View, TouchableHighlight,
+  Linking
 } from 'react-native';
 import ServiceApi from './ServiceApi';
+
 
 export default class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { name: 'Enter name to search artist', artistdata: '', artistevents: [] };
+    this.state = {
+      name: 'Enter name to search artist',
+      artistdata: '',
+      artistevents: [],
+      fontLoaded: false
+    };
     this.searchartist = this.searchartist.bind(this);
   }
+
+  // async componentWillMount() {
+  //   await Expo.Font.loadAsync({
+  //     'FontAwesome': require('./android/app/src/main/assets/fonts/fa-regular-400.ttf'),
+  //   });
+  //   this.setState({ fontLoaded: true });
+  // }
 
 
   searchartist() {
@@ -37,11 +51,26 @@ export default class App extends React.Component {
         <Text style={styles.textview}>{this.state.artistdata.name}</Text>
         <Image source={{ uri: this.state.artistdata.thumb_url }}
           style={{ width: 350, height: 350 }} />
-        <FlatList
-          data={this.state.artistevents}
-          renderItem={({ item }) => <Text>{item.name}</Text>}
-        />
 
+        <Text style={{ color: 'blue' }}
+          onPress={() => Linking.openURL(this.state.artistdata.facebook_page_url)}>
+          Facebook
+        </Text>
+        <Text style={styles.subtitle}>Events</Text>
+        <FlatList
+          data={this.state.artistdata.eventsdata}
+          renderItem={({ item }) =>
+            <View>
+              <Text>{item.venue.name}</Text>
+              <Text>{item.venue.city + ' ' + item.venue.country}</Text>
+              <View
+                style={styles.separator}
+              />
+            </View>
+          }
+          keyExtractor={(item, index) => item.id}
+
+        />
       </View>
     );
   }
@@ -59,5 +88,19 @@ const styles = StyleSheet.create({
   },
   textview: {
     fontWeight: 'bold'
+  },
+  button: {
+    margin: 10, fontSize: 15, textAlign: 'left'
+  },
+  subtitle : {
+    fontWeight: 'bold',
+    color: '#990033'
+  },
+  separator: {    
+      height: 1,
+      width: "86%",
+      backgroundColor: "#CED0CE",
+      marginLeft: "14%"
+    
   }
 });
