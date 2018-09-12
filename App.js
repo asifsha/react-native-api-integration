@@ -2,7 +2,7 @@ import React from 'react';
 import {
   StatusBar, Button, TextInput, Image,
   FlatList, StyleSheet, Text, View, TouchableHighlight,
-  Linking
+  Linking,ScrollView
 } from 'react-native';
 import ServiceApi from './ServiceApi';
 
@@ -47,6 +47,7 @@ export default class App extends React.Component {
           color="#841584"
           accessibilityLabel="Search Artist"
         />
+        <ScrollView>
         <Text>Results</Text>
         <Text style={styles.textview}>{this.state.artistdata.name}</Text>
         <Image source={{ uri: this.state.artistdata.thumb_url }}
@@ -71,6 +72,7 @@ export default class App extends React.Component {
           keyExtractor={(item, index) => item.id}
 
         />
+        </ScrollView>
       </View>
     );
   }
@@ -98,9 +100,10 @@ const styles = StyleSheet.create({
   },
   separator: {    
       height: 1,
-      width: "86%",
+      width: "92%",
       backgroundColor: "#CED0CE",
-      marginLeft: "14%"
+      marginLeft: "4%",
+      marginRight: "4%"
     
   }
 });
