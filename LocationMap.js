@@ -6,25 +6,38 @@ import { View } from 'react-native';
 
 export default class LocationMap extends React.Component {
     static navigationOptions = {
-        title: 'Location Map',
+        title: 'Location Map'
     };
 
     render() {
         const { navigate } = this.props.navigation;
+        // const latitude = navigate.getParam('latitude', 37.78825);
+        // const longitude = navigate.getParam('longitude', -122.4324);
+        const latitude = parseFloat(this.props.navigation.state.params.venue.latitude, 10);
+        const longitude = parseFloat(this.props.navigation.state.params.venue.longitude, 10);
+
+
         return (
-            <View>
-                <MapView style={{
-                    flex: 1
+
+            <MapView style={{
+                flex: 1
+            }}
+                initialRegion={{
+                    latitude: latitude,
+                    longitude: longitude,
+                    latitudeDelta: 0.0043,
+                    longitudeDelta: 0.0034
+
                 }}
-                    showsMyLocationButton={true}
-                    showsUserLocation={true}>
-                    <Marker
-                        coordinate={{ latitude: 52.36, longitude: 4.88 }}
-                        title={"Some Title"}
-                        description={"Hello world"}
-                    />
-                </MapView>
-            </View>
+            >
+                <MapView.Marker
+                    coordinate={{ latitude: latitude, longitude: longitude }}
+                    title={this.props.navigation.state.params.venue.region + ' ' + this.props.navigation.state.params.venue.city}
+                    description={this.props.navigation.state.params.venue.country}
+                />
+
+            </MapView>
+
         );
     }
 }

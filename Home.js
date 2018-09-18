@@ -70,11 +70,11 @@ export default class HomeScreen extends React.Component {
                                 <Text>{item.venue.name}</Text>
                                 <Text>{item.venue.city + ' ' + item.venue.country}</Text>
                                 <Button
+                                    style={styles.button}
                                     title="View Location"
                                     onPress={() =>
                                         navigate('LocationMap', {
-                                            latitude: item.venue.latitude,
-                                            longitude: item.venue.longitude
+                                            venue: item.venue
                                         })
                                     }
                                 />
