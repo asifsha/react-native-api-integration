@@ -1,8 +1,5 @@
 import React from 'react';
 import { MapView, Marker } from "expo";
-import { View } from 'react-native';
-
-
 
 export default class LocationMap extends React.Component {
     static navigationOptions = {
