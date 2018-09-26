@@ -11,7 +11,7 @@ export default class LocationMap extends React.Component {
         // const latitude = navigate.getParam('latitude', 37.78825);
         // const longitude = navigate.getParam('longitude', -122.4324);
         const latitude = parseFloat(this.props.navigation.state.params.venue.latitude, 10);
-        const longitude = parseFloat(this.props.navigation.state.params.venue.longitude, 10);
+        const longitude = parseFloat(this.props.navigation.state.params.venue.longitude, 10);       
 
 
         return (
@@ -29,7 +29,8 @@ export default class LocationMap extends React.Component {
             >
                 <MapView.Marker
                     coordinate={{ latitude: latitude, longitude: longitude }}
-                    title={this.props.navigation.state.params.venue.region + ' ' + this.props.navigation.state.params.venue.city}
+                    title={this.props.navigation.state.params.venue.region ==='' ? '' : this.props.navigation.state.params.venue.region
+                      + ' ' + this.props.navigation.state.params.venue.city}
                     description={this.props.navigation.state.params.venue.country}
                 />
 
